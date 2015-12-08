@@ -48,7 +48,6 @@ class DataTableModel
         $globalSearch = [];
         if ($search = $params['search']['value']) {
             foreach ($columns as $col) {
-//                $select->where->or->like($col, "%{$search}%");
                 if ($params['search']['regex']) {
                     $globalSearch[] = "`{$col}` '{$search}'";
                 } else {
@@ -64,7 +63,6 @@ class DataTableModel
         $columnSearch = [];
         foreach ($params['columns'] as $index => $column) {
             if ($column['search']['value']) {
-//                $select->where->like($columns[$index], "%{$column['search']['value']}%");
                 $columnSearch[] = "`{$columns[$index]}` LIKE '%{$column['search']['value']}%'";
             }
         }
