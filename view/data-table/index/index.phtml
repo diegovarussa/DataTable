@@ -1,0 +1,77 @@
+<div class="">
+    <div class=col-xs-12">
+        <br/>
+        <table id="table" class="table table-striped table-bordered table-responsive">
+            <thead>
+            <tr class="headings">
+                <th>Name</th>
+                <th>Code</th>
+                <th>Rarity</th>
+                <th>Type</th>
+                <th>Evolution</th>
+                <th>Level</th>
+                <th>HP</th>
+                <th>Retreat</th>
+                <th>Weakness</th>
+                <th>Resistance</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Rarity</th>
+                <th>Type</th>
+                <th>Evolution</th>
+                <th>Level</th>
+                <th>HP</th>
+                <th>Retreat</th>
+                <th>Weakness</th>
+                <th>Resistance</th>
+            </tr>
+            </tfoot>
+
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var tableHtml = $('#table');
+        var table = tableHtml.DataTable({
+            "columns": [
+                {"name": "name"},
+                {"name": "code"},
+                {"name": "rarity"},
+                {"name": "type"},
+                {"name": "evolution"},
+                {"name": "level"},
+                {"name": "hp"},
+                {"name": "retreat"},
+                {"name": "weakness"},
+                {"name": "resistance"}
+            ],
+            "order": [[1, 'asc']],
+            "processing": true,
+            "serverSide": true,
+            "searchDelay": 800,
+            "ajax": {
+                "url": '/jquery-data-table-ajax'
+            }
+        });
+
+        tableHtml.find('tfoot th').each(function (i) {
+                $(this).html('<input type="text" class="form-control input-data-table">');
+        });
+
+        table.columns().every(function () {
+            var column = this;
+            $('input', this.footer()).on('keyup change', function () {
+                if (column.search() !== this.value) {
+                    column.search(this.value).draw();
+                }
+            });
+        });
+    });
+</script>

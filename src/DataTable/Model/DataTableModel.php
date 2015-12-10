@@ -48,11 +48,7 @@ class DataTableModel
         $globalSearch = [];
         if ($search = $params['search']['value']) {
             foreach ($columns as $col) {
-                if ($params['search']['regex']) {
-                    $globalSearch[] = "`{$col}` '{$search}'";
-                } else {
                     $globalSearch[] = "`{$col}` LIKE '%{$search}%'";
-                }
             }
         }
         if (!empty($globalSearch)) {
@@ -63,7 +59,11 @@ class DataTableModel
         $columnSearch = [];
         foreach ($params['columns'] as $index => $column) {
             if ($column['search']['value']) {
-                $columnSearch[] = "`{$columns[$index]}` LIKE '%{$column['search']['value']}%'";
+                if ($params['search']['regex'] == 'false') {
+                    $columnSearch[] = "`{$columns[$index]}` LIKE '%{$column['search']['value']}%'";
+                } else {
+                    $columnSearch[] = "`{$columns[$index]}` = '{$column['search']['value']}'";
+                }
             }
         }
         if (!empty($columnSearch)) {
